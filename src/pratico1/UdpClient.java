@@ -35,10 +35,11 @@ public class UdpClient {
 
     public void startClient() throws SocketException {
         DatagramSocket socket = new DatagramSocket();
-        // Creates arrays to store incoming and outcoming data
+        // 1. Creates arrays to store incoming and outcoming data
         byte[] receivedData = new byte[DATA_SIZE];
         byte[] toSendData = new byte[DATA_SIZE];
         
+        // 2. Asks the user to enter a URL
         System.out.println("Entre uma URL para buscar:");
         System.out.print("->");
         final Scanner userInput = new Scanner(System.in);
@@ -49,14 +50,14 @@ public class UdpClient {
 
         try {
             InetAddress IPAddress = InetAddress.getLocalHost();
-            // Creates a new udp packet. It will translate the bytes to 
+            // 3. Creates a new udp packet. It will translate the bytes to 
             // information relevant to send for the server
             final DatagramPacket outcomingPacket
                     = new DatagramPacket(toSendData, toSendData.length,
                             IPAddress,port);
             socket.send(outcomingPacket);
             
-            // Receives the answer from the server
+            // 4. Receives the answer from the server
             final DatagramPacket incomingPacket =
                                 new DatagramPacket(receivedData, receivedData.length);
             socket.receive(incomingPacket);

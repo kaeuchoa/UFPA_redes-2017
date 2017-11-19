@@ -53,10 +53,8 @@ public class UdpDNS {
         DatagramSocket socket = new DatagramSocket(port);
         System.out.println("UDP Server listening at port:" + port);
         
-        
-
         while (running) {
-            // Creates arrays to store incoming and outcoming data
+            // 1. Creates arrays to store incoming and outcoming data
             byte[] receivedData = new byte[DATA_SIZE];
             byte[] toSendData = new byte[DATA_SIZE];
             try {
@@ -66,13 +64,13 @@ public class UdpDNS {
                         = new DatagramPacket(receivedData, receivedData.length);
 
                 socket.receive(incomingPacket);
-                // Gets all the relevant data from the packet
+                //2. Gets all the relevant data from the packet
                 final String clientURL = new String(incomingPacket.getData()).trim();
                 System.out.println("URL from client: " + clientURL);
                 final InetAddress clientIP = incomingPacket.getAddress();
                 final int clientPort = incomingPacket.getPort();
 
-                // Parsing the URL
+                //3. Parsing the URL
                 final Pattern pattern = Pattern.compile(URL_REGEX);
                 final Matcher matcher = pattern.matcher(clientURL);
                 boolean isURLValid = matcher.find();
@@ -87,7 +85,7 @@ public class UdpDNS {
                 } else {
                     toSendData = ("Invalid URL").getBytes();
                 }
-                // Creates the packet to send back to the client
+                //4. Creates the packet to send back to the client
                 final DatagramPacket outcomingPacket
                         = new DatagramPacket(toSendData, toSendData.length,
                                 clientIP, clientPort);
